@@ -1,6 +1,10 @@
+import os
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+
 from app.agent import parse_query
+from app.eval_pipeline import load_dataset, evaluate
 
 app = FastAPI()
 
@@ -21,3 +25,11 @@ async def filter_endpoint(request: Request):
             "data": result
         }
     )
+
+@app.get("/run-eval")
+def run_eval():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    dataset_path = os.path.join(base_dir, "data/synthetic_eval_data.json")
+    dataset = load_dataset(dataset_path)
+    results = evaluate(dataset)
+    return JSONResponse(content=results)

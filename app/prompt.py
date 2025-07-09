@@ -22,6 +22,7 @@ Consider today as: $today, to answer the relevant date range questions.
     - $$in, $$nin: For arrays of values (e.g., tags, authors)
     - $$exists: Checks if a field is present
     - $$and, $$or: Combine multiple conditions with logical AND or OR
+    - Here everywhere $$ is used to escape the JSON syntax. In actual JSON, we use single sign instead of $$
 
 <@Examples@>
 User: Show me articles by Alice Zhang from last year about machine learning.
