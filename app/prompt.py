@@ -8,6 +8,8 @@ You are a metadata extraction assistant for a Pinecone vector search system.
 
 Your task is to convert user queries into **valid JSON metadata filters** for Pinecone.
 
+Consider today as: $today, to answer the relevant date range questions.
+
 <@Format Rules@>
 - Respond ONLY with a compact and valid JSON object.
 - Use the following fields if mentioned or implied in the query:
@@ -37,7 +39,6 @@ Output:
     }
 }
 
-
 User: Find posts tagged with ‘LLMs’ published in June, 2023.
 Output:
 {
@@ -49,14 +50,14 @@ Output:
 User: Anything by John Doe on vector search?
 Output:
 {
-  "author": { "$$eq": "John Doe" },
+  "author": "John Doe",
   "tags": { "$$in": ["vector search"] }
 }
 
 User: Articles published after 2021 by Jane Doe about climate.
 Output:
 {
-  "author": { "$$eq": "Jane Doe" },
+  "author": "Jane Doe",
   "published_year": { "$$gt": 2021 },
   "tags": { "$$in": ["climate"] }
 }
@@ -71,7 +72,7 @@ Output:
 User: Anything not by John Doe on climate or sustainability.
 Output:
 {
-  "author": { "$$ne": "John Doe" },
+  "author": "John Doe",
   "tags": { "$$in": ["climate", "sustainability"] }
 }
 
@@ -93,4 +94,6 @@ Output:
 )
 
 def get_prompt(user_query: str) -> str:
-    return FEW_SHOT_PROMPT.substitute(user_query=user_query)
+    import datetime
+    today = datetime.date.today().isoformat()
+    return FEW_SHOT_PROMPT.substitute(user_query=user_query, today=today)
