@@ -12,7 +12,8 @@ def parse_query(nl_input: str) -> dict:
                 "content": get_prompt(nl_input)
             }
         ],
-        response_format={"type": "json_object"}
+        response_format={"type": "json_object"},
+        max_tokens=500,
     )
     content = response.choices[0].message.content
     if content is None:
