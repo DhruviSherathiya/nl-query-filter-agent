@@ -106,3 +106,5 @@ zope-tales==6.1
 zope-testing==5.1
 zope-traversing==5.1
 zope-viewlet==5.1
+fastapi
+uvicorn
